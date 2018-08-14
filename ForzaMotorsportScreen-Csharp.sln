@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForzaMotorsportScreen-Csharp", "ForzaMotorsportScreen-Csharp\ForzaMotorsportScreen-Csharp.csproj", "{4081EADB-EDB5-4B47-8129-A8067048043F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4081EADB-EDB5-4B47-8129-A8067048043F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4081EADB-EDB5-4B47-8129-A8067048043F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4081EADB-EDB5-4B47-8129-A8067048043F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4081EADB-EDB5-4B47-8129-A8067048043F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {92A528D5-9BFD-486A-ABF2-28E6E206D414}
+	EndGlobalSection
+EndGlobal
