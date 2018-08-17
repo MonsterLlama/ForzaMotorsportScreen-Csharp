@@ -12,9 +12,10 @@ namespace ForzaMotorsportScreen_Csharp
     {
         static void Main(string[] args)
         {
-            int[] input = { 1, 1, 2, 2, 4};
+            int[] input = { 1, 1, 2, 2, 4 };
 
             // Test For Loop Solution
+            WriteLine("Input: { 1, 1, 2, 2, 4 }");
             PrintSumCombinationsForLoop(input.ToList<int>(), 4);
 
             // Test Recursive Solution
@@ -26,21 +27,24 @@ namespace ForzaMotorsportScreen_Csharp
             PrintSumCombinationsForLoop(new List<int>(), 4);
             PrintSumCombinations(null, 4);
             PrintSumCombinationsForLoop(null, 4);
-            
+
             // Additional Tests..
             WriteLine("\n--------------------------------------------------------");
+            WriteLine("Input: { 2, 0, 2 }");
             PrintSumCombinationsForLoop(new List<int>() { 2, 0, 2 }, 4);
             PrintSumCombinations(new List<int>() { 2, 0, 2 }, 4);
 
             WriteLine("\n--------------------------------------------------------");
+            WriteLine("Input: { 1, 3, 1, 1, 1 }");
             PrintSumCombinationsForLoop(new List<int>() { 1, 3, 1, 1, 1 }, 4);
             PrintSumCombinations(new List<int>() { 1, 3, 1, 1, 1 }, 4);
 
             // This test demonstrates a flaw in the Recursive Solution when
             // the value of the last index is 0.
             WriteLine("\n--------------------------------------------------------");
+            WriteLine("Input: { 0, 4, 4 }");
             PrintSumCombinationsForLoop(new List<int>() { 0, 4, 4 }, 4);
-            PrintSumCombinations(new List<int>() { 0, 4, 4}, 4);
+            PrintSumCombinations(new List<int>() { 0, 4, 4 }, 4);
 
             ReadLine();
         }
@@ -122,6 +126,13 @@ namespace ForzaMotorsportScreen_Csharp
 
             if (currentSum == targetSum)
             {
+                // Only Print if we don't have a Zero in the subset
+                for (int i = 0; i < array.Count; i++)
+                {
+                    if (subArray[i] && array[i] == 0)
+                        return;
+                }
+
                 Print(subArray, array);
             }
             else if (index == array.Count)
@@ -145,6 +156,13 @@ namespace ForzaMotorsportScreen_Csharp
 
             if (currentSum == targetSum)
             {
+                // Only Print if we don't have a Zero in the subset
+                for (int i = 0; i < indexes.Count; i++)
+                {
+                    if (inputArray[indexes[i]] == 0)
+                        return;
+                }
+
                 Print(indexes, inputArray);
             }
             else if (index == inputArray.Count)
