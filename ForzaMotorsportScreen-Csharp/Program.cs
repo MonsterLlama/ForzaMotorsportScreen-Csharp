@@ -21,7 +21,7 @@ namespace ForzaMotorsportScreen_Csharp
             PrintSumCombinations(input.ToList<int>(), 4);
 
             // Test possible Invalid Inputs
-            WriteLine("\n--------------------------------------------------------\nTesting Invalid Inputs\n");
+            WriteLine("\n--------------------------------------------------------\nTesting Invalid Inputs (We should see no output.)\n");
             PrintSumCombinations(new List<int>(), 4);
             PrintSumCombinationsForLoop(new List<int>(), 4);
             PrintSumCombinations(null, 4);
@@ -54,11 +54,12 @@ namespace ForzaMotorsportScreen_Csharp
 
             bool[] subArray = new bool[numbers.Count];
 
-            //Recursive(index: 0, currentSum: 0, targetSum:n, subArray:subArray, array:numbers);
+            WriteLine("\nbool[]:");
+            Recursive(index: 0, currentSum: 0, targetSum:n, subArray:subArray, array:numbers);
 
             var indexes = new List<int>();
 
-            WriteLine(); 
+            WriteLine("\nList<int>:");
             Recursive(index: 0, currentSum: 0, targetSum: n, indexes: indexes, inputArray: numbers);
         }
 
@@ -66,6 +67,14 @@ namespace ForzaMotorsportScreen_Csharp
         {
             if (numbers == null || numbers.Count < 1)
                 return;
+            
+            // Prevent any overflow issues in the for-loop below.
+            if (numbers.Count > 32)
+            {
+                throw new ArgumentOutOfRangeException("The passed in List of numbers cannot contain more than 32 entries.");
+            }
+
+            WriteLine("\nfor loop:");
 
             var ba = new BitArray(numbers.Count);
             var m  = Math.Pow(2, numbers.Count) - 1;
@@ -76,7 +85,8 @@ namespace ForzaMotorsportScreen_Csharp
                 ba = (index+1).ToBitArray(numbers.Count);
 
                 // Print if the subset of values equals the target sum.
-                if (targetSum == SubsetSum(ba, numbers))
+                var result = SubsetSum(ba, numbers);
+                if (result.valid &&  targetSum == result.sum)
                 {
                     Print(ba, numbers);
                 }
@@ -84,7 +94,7 @@ namespace ForzaMotorsportScreen_Csharp
 
         }
 
-        static int SubsetSum(BitArray bArray, List<int> numbers)
+        private static (int sum, bool valid) SubsetSum(BitArray bArray, List<int> numbers)
         {
             int sum = 0;
 
@@ -92,14 +102,22 @@ namespace ForzaMotorsportScreen_Csharp
             {
                 if (bArray[index])
                 {
+                    // We don't want subsets containing a zero.
+                    // If we encounter a zero then just short circuit
+                    // setting the boolean valid value to false in the returned tuple
+                    // so that the caller knows it's an invalid subset.
+                    if (numbers[index] == 0)
+                        return (sum, false);
+
+                    // Otherwise 
                     sum += numbers[index];
                 }
             }
 
-            return sum;
+            return (sum, true);
         }
 
-        static void Recursive(int index, int currentSum, int targetSum, bool[] subArray, List<int> array)
+        private static void Recursive(int index, int currentSum, int targetSum, bool[] subArray, List<int> array)
         {
 
             if (currentSum == targetSum)
@@ -112,7 +130,7 @@ namespace ForzaMotorsportScreen_Csharp
             }
             else
             { 
-                if (array[index] != 0) subArray[index] = true;
+                subArray[index] = true;
                 currentSum += array[index];
                 Recursive(index + 1, currentSum, targetSum, subArray, array);
 
@@ -122,7 +140,7 @@ namespace ForzaMotorsportScreen_Csharp
             }
         }
 
-        static void Recursive(int index, int currentSum, int targetSum, List<int> indexes, List<int> inputArray)
+        private static void Recursive(int index, int currentSum, int targetSum, List<int> indexes, List<int> inputArray)
         {
 
             if (currentSum == targetSum)
@@ -136,17 +154,17 @@ namespace ForzaMotorsportScreen_Csharp
             else
             {
                 currentSum += inputArray[index];
-                if (inputArray[index] != 0) indexes.Add(index);
+                indexes.Add(index);
                 Recursive(index + 1, currentSum, targetSum, indexes, inputArray);
 
 
                 currentSum -= inputArray[index];
-                if(inputArray[index] != 0) indexes.RemoveAt(indexes.Count - 1);
+                indexes.RemoveAt(indexes.Count - 1);
                 Recursive(index + 1, currentSum, targetSum, indexes, inputArray);
             }
         }
 
-        static void Print(bool[] subArray, List<int> array)
+        private static void Print(bool[] subArray, List<int> array)
         {
             var sb = new StringBuilder();
 
@@ -183,7 +201,7 @@ namespace ForzaMotorsportScreen_Csharp
             WriteLine(sb.ToString());
         }
 
-        static void Print(List<int> indexes, List<int> array)
+        private static void Print(List<int> indexes, List<int> array)
         {
             var sb = new StringBuilder();
 
@@ -214,7 +232,7 @@ namespace ForzaMotorsportScreen_Csharp
             WriteLine(sb.ToString());
         }
 
-        static void Print(BitArray bArray, List<int> array)
+        private static void Print(BitArray bArray, List<int> array)
         {
             var sb = new StringBuilder();
 
@@ -280,7 +298,7 @@ namespace ForzaMotorsportScreen_Csharp
     }
 
     //
-    //           Problem Descrition
+    //           Problem Description
     //
     /*
             Using the following function signature, write a C# function that prints out every combination of indices using Console.WriteLine() whose values add up to a specified sum, n. Values of 0 should be ignored.
