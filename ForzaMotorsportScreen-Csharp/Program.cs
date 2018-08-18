@@ -12,6 +12,8 @@ namespace ForzaMotorsportScreen_Csharp
     {
         static void Main(string[] args)
         {
+            var sr = SquareRoot(37);
+
             int[] input = { 1, 1, 2, 2, 4 };
 
             // Test For Loop Solution
@@ -287,6 +289,45 @@ namespace ForzaMotorsportScreen_Csharp
 
             WriteLine(sb.ToString());
         }
+
+
+        // In Person, White Board Programming Question
+        private static float SquareRoot(int value)
+        {
+            float result = value / 2.0f;
+
+            const float PRECISION = 0.0001f;
+
+            long iterations = 0;
+
+            float lowest = 0.0f, highest = value;
+            float square = result * result;
+
+            while (square - value >= PRECISION || square - value <= -PRECISION)
+            {
+                square = result * result;
+
+                if (square > value)
+                {
+                    highest = result;
+                    result -= (result - lowest) / 2;
+                }
+                else
+                {
+                    lowest = result;
+                    result += (highest - result) / 2;
+                }
+
+                ++iterations;
+     
+            }
+
+            //WriteLine($"\rIterations: {iterations},      result:{result},         variance:{(result * result) - value}");
+
+            return result;
+        }
+
+
     }
 
     public static class Int32Extension
